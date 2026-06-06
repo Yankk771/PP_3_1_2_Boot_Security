@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import org.springframework.security.core.userdetails.UserDetails;
+import javax.persistence.Column;
 
 @Entity
 @Table(name = "users")
@@ -32,18 +33,21 @@ public class User implements UserDetails {
     @Min(value = 1, message = "Age must be greater than 0")
     private int age;
 
+    @Column(unique = true)
     private String username;
 
 
     private String password;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+
+
     private Set<Role>roles;
 
     public User() {

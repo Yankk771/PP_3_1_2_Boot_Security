@@ -43,7 +43,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getId() != null && (user.getPassword() == null || user.getPassword().isEmpty())) {
+            User oldUser = userRepository.findById(user.getId()).orElse(null);
+
+            if (oldUser != null) {
+                user.setPassword(oldUser.getPassword());
+            }
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
         userRepository.save(user);
     }
 

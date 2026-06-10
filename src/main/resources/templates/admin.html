@@ -60,6 +60,15 @@
     Пароль:
     <input type="password" name="password"><br><br>
 
+    Роль:
+    <select name="roleId">
+        <option th:each="role : ${roles}"
+                th:value="${role.id}"
+                th:text="${role.name}">
+        </option>
+    </select>
+    <br><br>
+
     <input type="submit" value="Добавить">
 </form>
 
